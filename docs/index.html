@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Webowaw - Zbiór Aplikacji</title>
+<style>:root{--bg:#0a0a0a;--bg2:#121212;--bg3:#1e1e1e;--neon:#ff0040;--text:#fff;--text2:#e0e0e0;--border:#333}*{box-sizing:border-box;margin:0;padding:0}body{font-family:sans-serif;background:var(--bg);color:var(--text);min-height:100vh}.nav{background:var(--bg2);padding:1rem;position:sticky;top:0;z-index:100}.nav .brand{font-family:'Courier New',monospace;font-size:1.5rem;font-weight:bold;color:var(--neon);letter-spacing:2px}.nav .menu{position:absolute;top:100%;left:0;right:0;background:var(--bg2);padding:1rem;display:none;flex-direction:column;gap:.5rem}.nav .menu.active{display:flex}.nav .menu a{color:var(--text2);text-decoration:none;padding:.5rem;display:flex;align-items:center;gap:.5rem}.nav .menu a:hover{color:var(--neon)}.nav .toggle{background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}.container{max-width:1400px;margin:0 auto;padding:1rem}.card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:1rem}.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;border:none;border-radius:8px;cursor:pointer;text-decoration:none;font-size:.9rem}.btn-primary{background:var(--neon);color:var(--text)}.btn-secondary{background:var(--bg2);color:var(--text);border:1px solid var(--border)}.form-input{width:100%;padding:.75rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);margin-bottom:1rem;font-size:.9rem}.form-label{display:block;margin-bottom:.5rem;color:var(--text2);font-size:.9rem}.grid{display:grid;grid-template-columns:1fr;gap:1rem}.grid .item{display:flex;gap:1rem;padding:1rem;border-bottom:1px solid var(--border)}.grid .item:last-child{border:0}.grid .icon{width:50px;height:50px;border-radius:8px;object-fit:cover}.grid .info{flex:1}.grid .title{font-weight:bold;margin-bottom:.25rem}.grid .desc{color:var(--text2);font-size:.85rem;margin-bottom:.5rem}.grid .meta{display:flex;gap:.5rem;font-size:.8rem;color:var(--text2)}.stars{color:#ffd700}.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:1rem}.modal.active{display:flex}.modal .content{background:var(--bg2);border-radius:12px;max-width:90vw;width:100%;max-height:90vh;overflow-y:auto;padding:1.5rem;position:relative}.modal .close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text2);font-size:1.5rem;cursor:pointer}.modal .close:hover{color:var(--neon)}.tag{display:inline-block;padding:.25rem .5rem;background:var(--bg3);border-radius:10px;font-size:.8rem;color:var(--text2);margin-right:.25rem;margin-bottom:.25rem}.tag-neon{border:1px solid var(--neon);color:var(--neon)}.step-indicator{display:flex;justify-content:center;margin:1rem 0;gap:1rem}.step{display:flex;flex-direction:column;align-items:center}.step-circle{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:.25rem;color:var(--text2);font-size:.8rem}.step.active .step-circle{border-color:var(--neon);color:var(--neon)}.step.completed .step-circle{background:var(--neon);color:#fff}.step-label{font-size:.7rem;color:var(--text2)}.step.active .step-label{color:var(--neon)}.toast{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:var(--neon);color:var(--text);padding:.75rem 1.5rem;border-radius:8px;z-index:1001}@media(min-width:600px){.grid{grid-template-columns:repeat(2,1fr)}.nav .menu{position:static;display:flex;flex-direction:row;padding:0;background:none;border:none}}@media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}.hidden{display:none!important}</style>
+</head>
+<body>
+<nav class="nav"><div style="display:flex;justify-content:space-between;align-items:center">
+<a class="brand" onclick="showPage('home')">WEBOWAW</a>
+<button class="toggle" onclick="toggleMenu()"><i>☰</i></button>
+<div class="menu" id="menu"><a onclick="showPage('home')"><i>🏠</i> Strona główna</a>
+<a onclick="showPage('add')"><i>➕</i> Dodaj</a>
+<a onclick="showPage('folders')"><i>📁</i> Foldery</a>
+<a onclick="showPage('export')"><i>💾</i> Eksport</a>
+<a onclick="showPage('settings')"><i>⚙️</i> Ustawienia</a></div></div></nav>
+<main class="container">
+<div id="home" class="page"><div style="margin:1rem 0"><h1 style="font-family:'Courier New',monospace;font-size:1.5rem;color:var(--neon);margin-bottom:.5rem">Panel główny</h1><p style="color:var(--text2)">Zarządzaj swoją kolekcją aplikacji</p></div>
+<div class="card"><input type="text" class="form-input" placeholder="Szukaj aplikacji..." oninput="filterApps()" id="search"></div>
+<div class="card"><select class="form-input" onchange="filterApps()" id="category"><option value="all">Wszystkie kategorie</option><option>Narzędzia</option><option>Gry</option><option>Społeczność</option><option>Web</option></select></div>
+<button class="btn btn-primary" style="width:100%;margin-bottom:1rem" onclick="showPage('add')">➕ Dodaj aplikację</button>
+<div class="grid" id="apps"></div></div>
+
+<div id="add" class="page hidden"><div style="margin:1rem 0"><h1 style="font-family:'Courier New',monospace;font-size:1.5rem;color:var(--neon);margin-bottom:.5rem">Dodaj aplikację</h1><p style="color:var(--text2)">Wybierz źródło i dodaj dane</p></div>
+<div class="step-indicator"><div class="step active" id="s1"><div class="step-circle">1</div><span class="step-label">Źródło</span></div><div class="step" id="s2"><div class="step-circle">2</div><span class="step-label">Dane</span></div><div class="step" id="s3"><div class="step-circle">3</div><span class="step-label">Zapis</span></div></div>
+<div id="step1"><div class="card"><h2 style="color:var(--neon);margin-bottom:1rem">Wybierz źródło</h2>
+<div style="display:flex;gap:.5rem;margin-bottom:1rem"><button class="btn btn-primary flex-1" onclick="setType('web')" id="btnWeb">🌐 WWW</button><button class="btn btn-secondary flex-1" onclick="setType('play')" id="btnPlay">📱 Play Store</button></div>
+<input type="url" class="form-input" placeholder="Wklej URL..." id="urlInput">
+<div style="display:flex;gap:.5rem;margin-top:1rem"><button class="btn btn-secondary" onclick="showPage('home')">Anuluj</button><button class="btn btn-primary flex-1" onclick="nextStep()">Pobierz dane</button></div></div></div>
+<div id="step2" class="hidden"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h2 style="color:var(--neon)">Edytuj dane</h2><button class="btn btn-secondary" style="padding:.5rem" onclick="prevStep()">× Wróć</button></div>
+<div style="text-align:center;margin-bottom:1rem"><img id="iconPreview" src="https://via.placeholder.com/80x80/ff0040/fff?text=📁" style="width:60px;height:60px;border-radius:12px"></div>
+<input type="text" class="form-input" placeholder="Nazwa" id="appName">
+<textarea class="form-input" placeholder="Opis" id="appDesc" style="min-height:80px"></textarea>
+<select class="form-input" id="appCat"><option>Narzędzia</option><option>Gry</option><option>Społeczność</option><option>Web</option><option>Inne</option></select>
+<input type="number" class="form-input" placeholder="Ocena (0-5)" id="appRating" min="0" max="5" step="0.1">
+<input type="url" class="form-input" placeholder="Link polecający (opcjonalny)" id="appRef">
+<input type="text" class="form-input" placeholder="Kod bonusowy (opcjonalny)" id="appBonus">
+<textarea class="form-input" placeholder="Notatki" id="appNotes" style="min-height:60px"></textarea>
+<div style="display:flex;gap:.5rem;margin-top:1rem"><button class="btn btn-secondary" onclick="prevStep()">Wróć</button><button class="btn btn-primary flex-1" onclick="nextStep2()">Dalej</button></div></div></div>
+<div id="step3" class="hidden"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h2 style="color:var(--neon)">Wybierz folder</h2><button class="btn btn-secondary" style="padding:.5rem" onclick="prevStep()">× Wróć</button></div>
+<select class="form-input" id="folder"><option>/</option><option>/aplikacje</option><option>/aplikacje/testowe</option><option>/aplikacje/webowe</option><option>/gry</option><option>/narzedzia</option></select>
+<div style="background:var(--bg3);padding:1rem;border-radius:8px;margin-top:1rem"><h3 style="color:var(--neon);margin-bottom:.5rem">Podsumowanie</h3><div id="summary"></div></div>
+<div style="display:flex;gap:.5rem;margin-top:1rem"><button class="btn btn-secondary" onclick="prevStep()">Wróć</button><button class="btn btn-primary flex-1" onclick="saveApp()">✓ Zapisz</button></div></div></div></div>
+
+<div id="folders" class="page hidden"><div style="margin:1rem 0"><h1 style="font-family:'Courier New',monospace;font-size:1.5rem;color:var(--neon);margin-bottom:.5rem">Foldery</h1><p style="color:var(--text2)">Zarządzaj strukturą folderów</p></div>
+<div class="card"><input type="text" class="form-input" placeholder="Szukaj folderów..." oninput="filterFolders()" id="folderSearch"></div>
+<div class="card"><div style="padding:1rem;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:.5rem"><i>📁</i><strong>/ (root)</strong><span style="margin-left:auto;color:var(--text2)" id="totalCount">0 aplikacji</span></div></div><div id="folderTree"></div></div></div>
+
+<div id="export" class="page hidden"><div style="margin:1rem 0"><h1 style="font-family:'Courier New',monospace;font-size:1.5rem;color:var(--neon);margin-bottom:.5rem">Eksport</h1><p style="color:var(--text2)">Wyeksportuj swoją kolekcję</p></div>
+<div class="card"><h2 style="color:var(--neon);margin-bottom:1rem">Wybierz format</h2>
+<div style="display:flex;flex-direction:column;gap:.5rem"><label style="display:flex;align-items:center;gap:.5rem;cursor:pointer"><input type="radio" name="format" value="html" checked>🌐 HTML (Strona WWW)</label>
+<label style="display:flex;align-items:center;gap:.5rem;cursor:pointer"><input type="radio" name="format" value="json">📄 JSON (Dane)</label>
+<label style="display:flex;align-items:center;gap:.5rem;cursor:pointer"><input type="radio" name="format" value="md">📝 Markdown</label></div></div>
+<div class="card"><h2 style="color:var(--neon);margin-bottom:1rem">Opcje</h2>
+<div style="display:flex;flex-direction:column;gap:.5rem"><label style="display:flex;align-items:center;gap:.5rem;cursor:pointer"><input type="checkbox" checked>🖼️ Dołącz obrazy</label>
+<label style="display:flex;align-items:center;gap:.5rem;cursor:pointer"><input type="checkbox" checked>🔗 Dołącz linki polecające</label>
+<label style="display:flex;align-items:center;gap:.5rem;cursor:pointer"><input type="checkbox" checked>🏷️ Dołącz kody bonusowe</label></div></div>
+<div class="card"><p style="color:var(--text2);margin-bottom:1rem">Wybrano: <strong id="exportCount">0</strong> aplikacji</p>
+<button class="btn btn-primary" style="width:100%" onclick="doExport()">💾 Eksportuj</button></div></div>
+
+<div id="settings" class="page hidden"><div style="margin:1rem 0"><h1 style="font-family:'Courier New',monospace;font-size:1.5rem;color:var(--neon);margin-bottom:.5rem">Ustawienia</h1><p style="color:var(--text2)">Konfiguracja</p></div>
+<div class="card"><h2 style="color:var(--neon);margin-bottom:1rem">Informacje</h2>
+<p style="color:var(--text2)">Wersja: <strong>1.0.0</strong></p>
+<p style="color:var(--text2)">Tryb: <strong>Standalone (działa na telefonie)</strong></p>
+<p style="color:var(--text2)">Dane: <strong>localStorage</strong></p></div>
+<div class="card"><h2 style="color:var(--neon);margin-bottom:1rem">Zarządzanie danymi</h2>
+<button class="btn btn-danger" style="width:100%" onclick="clearData()">🗑️ Wyczyść wszystkie dane</button></div>
+<div class="card"><h2 style="color:var(--neon);margin-bottom:1rem">Pomoc</h2>
+<p style="color:var(--text2);font-size:.9rem">Aby używać pełnej wersji z scrapowaniem, uruchom na komputerze z Node.js</p></div></div>
+</main>
+
+<div class="modal" id="modal"><div class="content"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
+
+<script>
+let apps=JSON.parse(localStorage.getItem('webowaw-apps')||'[]');
+let currentStep=1,currentApp=null;
+
+function toggleMenu(){document.getElementById('menu').classList.toggle('active')}
+function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(p).classList.remove('hidden');document.getElementById('menu').classList.remove('active');if(p=='home')renderApps();else if(p=='folders')renderFolders()}
+function showToast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2000)}
+
+function renderApps(){
+const g=document.getElementById('apps');
+const s=document.getElementById('search').value.toLowerCase();
+const c=document.getElementById('category').value;
+const filtered=apps.filter(a=>(a.name.toLowerCase().includes(s)||a.description.toLowerCase().includes(s)||a.tags.some(t=>t.toLowerCase().includes(s)))&&(c=='all'||a.category==c));
+if(filtered.length==0){g.innerHTML='<div style="text-align:center;padding:2rem;color:var(--text2)">Brak aplikacji<br><button class="btn btn-primary" style="margin-top:1rem" onclick="showPage(\'add\')">➕ Dodaj pierwszą</button></div>';return}
+g.innerHTML=filtered.map(a=>`<div class="item" onclick="showDetails('${a.id}')"><img src="${a.icon||'https://via.placeholder.com/50x50/333/fff?text=📁'}" class="icon" onerror="this.src='https://via.placeholder.com/50x50/333/fff?text=📁'"><div class="info"><div class="title">${a.name}</div><div class="desc">${a.description||'Brak opisu'}</div><div class="meta"><span>${a.category}</span><span class="stars">${'⭐'.repeat(Math.floor(a.rating||0))}${'☆'.repeat(5-Math.floor(a.rating||0))}</span><span>(${a.reviewsCount})</span></div>${a.referralLink?'<span class="tag tag-neon">Link</span>':''}${a.bonusCode?'<span class="tag tag-neon">Kod</span>':''}</div></div>`).join('')}
+
+function filterApps(){renderApps()}
+
+function setType(t){if(t=='web'){document.getElementById('btnWeb').className='btn btn-primary flex-1';document.getElementById('btnPlay').className='btn btn-secondary flex-1';document.getElementById('urlInput').placeholder='https://strona.pl'}else{document.getElementById('btnWeb').className='btn btn-secondary flex-1';document.getElementById('btnPlay').className='btn btn-primary flex-1';document.getElementById('urlInput').placeholder='https://play.google.com/...'}}
+window.sourceType=t}
+
+function nextStep(){
+const url=document.getElementById('urlInput').value.trim();
+if(!url){showToast('Wprowadź URL!');return}
+currentApp={id:Date.now().toString(),sourceType:window.sourceType||'web',sourceUrl:url,name:window.sourceType=='play'?'Aplikacja z Play Store':'Strona WWW',description:'Opis aplikacji',icon:window.sourceType=='play'?'https://via.placeholder.com/100x100/ff0040/fff?text=PS':'https://via.placeholder.com/100x100/00ff88/fff?text=WWW',rating:window.sourceType=='play'?4.2:3.8,reviewsCount:window.sourceType=='play'?1500:800,category:window.sourceType=='play'?'Narzędzia':'Web',tags:[],developer:window.sourceType=='play'?'Google LLC':new URL(url).hostname,version:'1.0.0',lastUpdated:new Date().toISOString().split('T')[0],referralLink:'',bonusCode:'',customNotes:'',folderPath:'/'};
+currentStep=2;updateSteps();document.getElementById('step1').classList.add('hidden');document.getElementById('step2').classList.remove('hidden');
+document.getElementById('appName').value=currentApp.name;document.getElementById('appDesc').value=currentApp.description;document.getElementById('appCat').value=currentApp.category;document.getElementById('appRating').value=currentApp.rating;document.getElementById('iconPreview').src=currentApp.icon}
+
+function prevStep(){
+if(currentStep==2){currentStep=1;updateSteps();document.getElementById('step2').classList.add('hidden');document.getElementById('step1').classList.remove('hidden')}
+else if(currentStep==3){currentStep=2;updateSteps();document.getElementById('step3').classList.add('hidden');document.getElementById('step2').classList.remove('hidden')}}
+
+function nextStep2(){
+const name=document.getElementById('appName').value.trim();
+if(!name){showToast('Nazwa jest wymagana!');return}
+currentApp.name=name;currentApp.description=document.getElementById('appDesc').value;currentApp.category=document.getElementById('appCat').value;currentApp.rating=parseFloat(document.getElementById('appRating').value)||0;currentApp.referralLink=document.getElementById('appRef').value;currentApp.bonusCode=document.getElementById('appBonus').value;currentApp.customNotes=document.getElementById('appNotes').value;updateSummary();currentStep=3;updateSteps();document.getElementById('step2').classList.add('hidden');document.getElementById('step3').classList.remove('hidden')}
+
+function updateSteps(){
+for(let i=1;i<=3;i++){const s=document.getElementById('s'+i);s.classList.remove('active','completed');if(i==currentStep)s.classList.add('active');else if(i<currentStep)s.classList.add('completed')}}
+
+function updateSummary(){
+const s=document.getElementById('summary');
+s.innerHTML=`<p><strong>Nazwa:</strong> ${currentApp.name}</p><p><strong>Kategoria:</strong> ${currentApp.category}</p><p><strong>Ocena:</strong> ${currentApp.rating}/5</p>${currentApp.referralLink?'<p><strong>Link:</strong> '+currentApp.referralLink+'</p>':''}${currentApp.bonusCode?'<p><strong>Kod:</strong> '+currentApp.bonusCode+'</p>':''}`}
+
+function saveApp(){
+currentApp.folderPath=document.getElementById('folder').value;currentApp.createdAt=new Date().toISOString();currentApp.updatedAt=new Date().toISOString();apps.push(currentApp);localStorage.setItem('webowaw-apps',JSON.stringify(apps));showToast('✓ Zapisano!');resetForm();showPage('home')}
+
+function resetForm(){currentStep=1;currentApp=null;document.getElementById('urlInput').value='';document.getElementById('appName').value='';document.getElementById('appDesc').value='';document.getElementById('appRating').value='';document.getElementById('appRef').value='';document.getElementById('appBonus').value='';document.getElementById('appNotes').value='';updateSteps();document.getElementById('step2').classList.add('hidden');document.getElementById('step3').classList.add('hidden');document.getElementById('step1').classList.remove('hidden');setType('web')}
+
+function showDetails(id){
+const app=apps.find(a=>a.id==id);if(!app)return;currentApp=app;
+const m=document.getElementById('modalContent');
+m.innerHTML=`<div style="text-align:center;margin-bottom:1rem"><img src="${app.icon||'https://via.placeholder.com/80x80/333/fff?text=📁'}" style="width:60px;height:60px;border-radius:12px" onerror="this.src='https://via.placeholder.com/80x80/333/fff?text=📁'"></div>
+<h2 style="color:var(--neon);margin-bottom:1rem">${app.name}</h2>
+<div style="margin-bottom:1rem"><strong>Kategoria:</strong> ${app.category}<br><strong>Ocena:</strong> ${app.rating}/5 (${app.reviewsCount} recenzji)<br><strong>Wersja:</strong> ${app.version||'N/A'}<br><strong>Developer:</strong> ${app.developer||'N/A'}</div>
+<p style="color:var(--text2);margin-bottom:1rem">${app.description||'Brak opisu'}</p>
+${app.referralLink?'<div style="background:rgba(255,0,64,0.1);border:1px solid var(--neon);padding:.5rem;border-radius:8px;margin-bottom:.5rem"><strong>Link polecający:</strong><br><small>'+app.referralLink+'</small><br><button class="btn btn-primary" style="margin-top:.5rem" onclick="copyText(''+app.referralLink+')">Kopiuj</button></div>':''}
+${app.bonusCode?'<div style="background:rgba(255,0,64,0.1);border:1px solid var(--neon);padding:.5rem;border-radius:8px;margin-bottom:.5rem"><strong>Kod bonusowy:</strong><br><span style="font-size:1.2rem;color:var(--neon)">'+app.bonusCode+'</span><br><button class="btn btn-primary" style="margin-top:.5rem" onclick="copyText(''+app.bonusCode+')">Kopiuj</button></div>':''}
+<div style="display:flex;gap:.5rem;margin-top:1rem"><button class="btn btn-secondary flex-1" onclick="editApp('${app.id}')">Edytuj</button><button class="btn btn-danger flex-1" onclick="deleteApp('${app.id}')">Usuń</button></div>`;
+document.getElementById('modal').classList.add('active')}
+
+function closeModal(){document.getElementById('modal').classList.remove('active')}
+function copyText(t){navigator.clipboard.writeText(t).then(()=>showToast('Skopiowano!'))}
+
+function editApp(id){
+const app=apps.find(a=>a.id==id);if(!app)return;currentApp={...app};currentStep=2;updateSteps();document.getElementById('step1').classList.add('hidden');document.getElementById('step2').classList.remove('hidden');document.getElementById('step3').classList.add('hidden');
+document.getElementById('appName').value=app.name;document.getElementById('appDesc').value=app.description;document.getElementById('appCat').value=app.category;document.getElementById('appRating').value=app.rating;document.getElementById('appRef').value=app.referralLink||'';document.getElementById('appBonus').value=app.bonusCode||'';document.getElementById('appNotes').value=app.customNotes||'';document.getElementById('folder').value=app.folderPath;document.getElementById('iconPreview').src=app.icon||'https://via.placeholder.com/80x80/333/fff?text=📁';
+showPage('add');updateSummary()}
+
+function deleteApp(id){
+if(confirm('Usunąć tę aplikację?')){apps=apps.filter(a=>a.id!=id);localStorage.setItem('webowaw-apps',JSON.stringify(apps));showToast('Usunięto!');closeModal();renderApps();renderFolders();updateCounts()}}
+
+function renderFolders(){
+const tree=document.getElementById('folderTree');
+const getApps=(p)=>apps.filter(a=>a.folderPath==p);
+const folders=[{name:'aplikacje',path:'/aplikacje',subfolders:[{name:'testowe',path:'/aplikacje/testowe',subfolders:[]},{name:'webowe',path:'/aplikacje/webowe',subfolders:[]}]},{name:'gry',path:'/gry',subfolders:[]},{name:'narzedzia',path:'/narzedzia',subfolders:[]}];
+const render=(f)=>{const a=getApps(f.path);return`<div style="padding:.5rem;cursor:pointer" onclick="toggleFolder('${f.path}')"><div style="display:flex;align-items:center;gap:.5rem"><i>📁</i><strong>${f.name}</strong><span style="margin-left:auto;color:var(--text2)">${a.length} app${a.length!=1?'s':''}</span></div>${f.subfolders.length>0?'<div id="sub-'+f.path+'" style="display:none;margin-left:1rem">'+f.subfolders.map(render).join('')+'</div>':''}${a.length>0?'<div style="margin-left:1rem">'+a.map(app=>`<div style="padding:.5rem;cursor:pointer" onclick="showDetails('${app.id}')"><div style="display:flex;align-items:center;gap:.5rem"><img src="${app.icon||'https://via.placeholder.com/20x20/333/fff?text=📁'}" style="width:20px;height:20px;border-radius:4px" onerror="this.src='https://via.placeholder.com/20x20/333/fff?text=📁'"><span style="flex:1">${app.name}</span><span style="color:var(--text2);font-size:.8rem">${app.category}</span></div></div>`).join('')+'</div>':''}</div>`};
+tree.innerHTML=folders.map(render).join('');document.getElementById('totalCount').textContent=apps.length+' aplikacji'}
+
+function toggleFolder(p){const f=document.getElementById('sub-'+p);if(f)f.style.display=f.style.display=='none'?'block':'none'}
+function filterFolders(){renderFolders()}
+function updateCounts(){document.getElementById('totalCount').textContent=apps.length+' aplikacji';document.getElementById('exportCount').textContent=apps.length}
+
+function doExport(){
+const f=document.querySelector('input[name="format"]:checked').value;
+if(apps.length==0){showToast('Brak aplikacji!');return}
+let c,fn,mt;
+if(f=='html'){c=generateHTML();fn='webowaw_'+new Date().toISOString().split('T')[0]+'.html';mt='text/html'}
+else if(f=='json'){c=JSON.stringify(apps,null,2);fn='webowaw_'+new Date().toISOString().split('T')[0]+'.json';mt='application/json'}
+else{c=generateMD();fn='webowaw_'+new Date().toISOString().split('T')[0]+'.md';mt='text/markdown'}
+const b=new Blob([c],{type:mt});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);showToast('Eksport gotowy!')}
+
+function generateHTML(){
+const cards=apps.map(a=>`
+<div style="background:#1e1e1e;border:1px solid #333;border-radius:12px;padding:1rem;margin-bottom:1rem">
+<div style="display:flex;gap:1rem">
+<img src="${a.icon||'https://via.placeholder.com/60x60/333/fff?text=📁'}" style="width:60px;height:60px;border-radius:8px;object-fit:cover" onerror="this.src='https://via.placeholder.com/60x60/333/fff?text=📁'">
+<div style="flex:1">
+<div style="font-weight:bold;margin-bottom:.25rem">${a.name}</div>
+<div style="color:#e0e0e0;font-size:.9rem;margin-bottom:.5rem">${a.description||'Brak opisu'}</div>
+<div style="color:#ffd700">${'⭐'.repeat(Math.floor(a.rating||0))}${'☆'.repeat(5-Math.floor(a.rating||0))} (${a.reviewsCount})</div>
+${a.referralLink?'<div style="background:rgba(255,0,64,0.1);border:1px solid #ff0040;color:#ff0040;padding:.5rem;border-radius:8px;margin-top:.5rem">Link polecający: '+a.referralLink+'</div>':''}
+${a.bonusCode?'<div style="background:rgba(255,0,64,0.1);border:1px solid #ff0040;color:#ff0040;padding:.5rem;border-radius:8px;margin-top:.5rem">Kod bonusowy: '+a.bonusCode+'</div>':''}
+</div></div></div>
+`).join('');
+return`<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kolekcja Aplikacji</title>
+<style>body{font-family:sans-serif;background:#0a0a0a;color:#fff;padding:1rem}header{text-align:center;margin-bottom:2rem}header h1{color:#ff0040;font-family:'Courier New',monospace}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}footer{text-align:center;margin-top:2rem;color:#a0a0a0}@media(max-width:768px){.grid{grid-template-columns:1fr}}</style></head>
+<body><div style="max-width:1400px;margin:0 auto"><header><h1>Kolekcja Aplikacji</h1><p>Wyeksportowano z Webowaw</p></header>
+<div class="grid">${cards}</div>
+<footer>Wygenerowano przez Webowaw</footer></div></body></html>`}
+
+function generateMD(){
+let m='# Kolekcja Aplikacji - Webowaw\n\n';
+m+='*Wygenerowano: '+new Date().toLocaleString('pl-PL')+'*\n\n---\n\n';
+apps.forEach((a,i)=>{m+=`## ${i+1}. ${a.name}\n\n`;m+='| | |\n|---|---|\n';
+m+=`| **Kategoria** | ${a.category||'N/A'} |\n`;m+=`| **Ocena** | ${a.rating}/5 (${a.reviewsCount} recenzji) |\n`;
+m+=`| **Wersja** | ${a.version||'N/A'} |\n`;m+=`| **Developer** | ${a.developer||'N/A'} |\n`;
+if(a.referralLink)m+=`| **Link polecający** | [Link](${a.referralLink}) |\n`;
+if(a.bonusCode)m+=`| **Kod bonusowy** | **${a.bonusCode}** |\n`;
+m+='|\n\n**Opis:**\n\n'+(a.description||'Brak opisu')+'\n\n';
+if(a.tags&&a.tags.length>0)m+='**Tagi:** '+a.tags.join(', ')+'\n\n';
+if(a.sourceUrl)m+='[🔗 Źródło]('+a.sourceUrl+')\n\n';
+m+='---\n\n'});return m}
+
+function clearData(){
+if(confirm('WYCZYŚCIĆ WSZYSTKIE DANE?')){apps=[];localStorage.removeItem('webowaw-apps');showToast('Wyczyszczono!');renderApps();renderFolders();updateCounts()}}
+
+// Initialize
+if(apps.length==0){
+apps=[{id:'1',sourceType:'playstore',sourceUrl:'https://play.google.com/store/apps/details?id=com.whatsapp',name:'WhatsApp',description:'Komunicator internetowy do wysyłania wiadomości',icon:'https://via.placeholder.com/100x100/25D366/fff?text=WA',rating:4.4,reviewsCount:15000000,category:'Społeczność',tags:['komunikaty','darmowy'],developer:'WhatsApp LLC',version:'2.24.8',lastUpdated:'2024-01-15',referralLink:'https://example.com/ref=whatsapp',bonusCode:'WHATSAPP20',customNotes:'Popularny komunikator',folderPath:'/'},{id:'2',sourceType:'website',sourceUrl:'https://github.com',name:'GitHub',description:'Platforma dla developerów',icon:'https://via.placeholder.com/100x100/181717/fff?text=GH',rating:4.8,reviewsCount:500000,category:'Narzędzia',tags:['programowanie','code'],developer:'GitHub, Inc.',version:'N/A',lastUpdated:'2024-02-01',referralLink:'',bonusCode:'',customNotes:'',folderPath:'/'}];
+localStorage.setItem('webowaw-apps',JSON.stringify(apps))}
+renderApps();renderFolders();updateCounts();
+</script>
+</body>
+</html>
