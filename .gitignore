@@ -1,0 +1,46 @@
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Build output
+frontend/dist/
+backend/node_modules/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Storage (local data)
+storage/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Coverage
+coverage/
+
+# Test
+.coverage
+
+# Puppeteer cache
+.puppeteer_cache/

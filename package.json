@@ -1,0 +1,30 @@
+{
+  "name": "webowaw-app",
+  "version": "1.0.0",
+  "description": "Complete application for collecting and organizing apps with referral links and bonus codes",
+  "scripts": {
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build:frontend": "cd frontend && npm run build",
+    "build": "npm run build:frontend",
+    "start:backend": "cd backend && npm start",
+    "start": "cd backend && npm start",
+    "clean": "rm -rf frontend/dist backend/node_modules frontend/node_modules storage"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "webowaw",
+    "app-collection",
+    "referral-links",
+    "bonus-codes",
+    "scraper",
+    "playstore",
+    "web-scraping"
+  ],
+  "author": "",
+  "license": "MIT"
+}
